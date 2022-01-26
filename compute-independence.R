@@ -10,17 +10,6 @@ d <- read_csv("https://osf.io/cjxua/?action=download")
 codebook_url <- "https://osf.io/v68t9/"
 
 
-# big five variables:
-big_five <- c("ope", "con", "ext", "agr", "neu")
-
-d2 <-
-  d %>%
-  select(all_of(big_five)) %>%
-  drop_na()
-
-
-# this variables are expected to be independent:
-vars_expected_independent<- c("Dem_age", "Dem_gender")
 
 d3 <-
   d %>%
@@ -33,6 +22,7 @@ d3 <-
 
 
 options(mc.cores = parallel::detectCores())
+
 tic()
 m1 <- stan_glm(Dem_age ~ is_female, data = d3)
 toc()
@@ -40,4 +30,4 @@ toc()
 write_rds(m1, file = "m1.rds")
 
 m1
-posterior_interval(m1, pars = "is_female")
+posterior_interval(m1, pars = "is_female", prob = .95)
