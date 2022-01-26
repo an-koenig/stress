@@ -1,3 +1,9 @@
+# This file is a reproducible analyses of the independence computation between age and gender.
+
+
+
+
+
 library(rstanarm)
 library(tidyverse)
 library(tictoc)
@@ -24,6 +30,7 @@ d3 <-
 options(mc.cores = parallel::detectCores())
 
 tic()
+# note that a simple regression with standardized variables is identical to a correlation
 m1 <- stan_glm(Dem_age ~ is_female, data = d3)
 toc()
 
