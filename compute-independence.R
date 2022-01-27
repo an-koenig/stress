@@ -16,6 +16,9 @@ d <- read_csv("https://osf.io/cjxua/?action=download")
 codebook_url <- "https://osf.io/v68t9/"
 
 
+vars_expected_independent <-
+  c("Dem_gender", "Dem_age")
+
 
 d3 <-
   d %>%
@@ -23,8 +26,11 @@ d3 <-
   mutate(is_female = ifelse(Dem_gender == "Female", 1, 0)) %>%
   select(-Dem_gender) %>%
   drop_na() %>%
-  mutate(across(everything(),
-                scale))
+  mutate(across(everything(),  #z-scaling
+                ~ ((. - mean(.))/sd(.))))
+
+
+write_csv(d3, file = "d3.csv")
 
 
 options(mc.cores = parallel::detectCores())
