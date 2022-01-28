@@ -6,7 +6,7 @@
 
 library(rstanarm)
 library(tidyverse)
-library(tictoc)
+library(tictoc)  # time measurement of computation durating, not strictly needed
 
 
 # download data from osf:
