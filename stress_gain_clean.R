@@ -1,22 +1,24 @@
 library(tidyverse)
 
+set.seed(1)
+
 stress <- read.csv("R:/Forschung/COVIDiSTRESS/COVIDiSTRESS all global survey data/COVIDiSTRESS cleaned data and cleaning code (data from 27 April)/COVIDiSTRESS_May_30_cleaned_final.csv")
 
 
 stress$gain_safe <- ifelse(stress$AD_gain == 
-                             "· If Program A is adopted, 200 people will be saved.",
+                             "Â· If Program A is adopted, 200 people will be saved.",
                            1, 0)
 
 stress$loss_safe <- ifelse(stress$AD_loss ==
-                             "· If Program C is adopted 400 people will die.",
+                             "Â· If Program C is adopted 400 people will die.",
                            1, 0)
 
 stress$gain_risky <- ifelse(stress$AD_gain ==
-                              "· If Program B is adopted, there is 1/3 probability that 600 people will be saved, and 2/3 probability that no people will be saved",
+                              "Â· If Program B is adopted, there is 1/3 probability that 600 people will be saved, and 2/3 probability that no people will be saved",
                             1, 0)
 
 stress$loss_risky <- ifelse(stress$AD_loss ==
-                              "· If Program D is adopted there is 1/3 probability that nobody will die, and 2/3 probability that 600 people will die.",
+                              "Â· If Program D is adopted there is 1/3 probability that nobody will die, and 2/3 probability that 600 people will die.",
                             1, 0)
 
 #applying exclusion criteria
