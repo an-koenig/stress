@@ -6,19 +6,28 @@ set.seed(2)
 
 #applying exclusion criteria
 
-stress2 <- stress %>% group_by(Country) %>% mutate(ns = n()) %>% filter(ns>=30) #Lieberoth et al. (2021)
-
 #%>% select(Country,ns)
 
-stress3 <- stress2 %>% filter(Duration..in.seconds.>= 132)
-
-stress4 <- stress3 %>% ungroup()
+stress2 <- stress %>% filter(Duration..in.seconds.>= 132)
 
 
+stress3 <- stress2 %>% select(Country, Dem_gender, Dem_age, AD_loss, PSS10_avg, neu, ext, ope, agr, con) 
 
-stress5 <- stress4 %>% select(Dem_gender, Dem_age, AD_loss, PSS10_avg, neu, ext, ope, agr, con) 
+stress3 <- na.omit(stress3) #second exclusion criterion
+stress4 <- stress3 %>% group_by(Country) %>% mutate(ns = n()) %>% filter(ns>=30) #Lieberoth et al. (2021), third exclusion criterion
+stress5 <- stress4 %>% ungroup()
+stress5 <- stress5[!(stress5$Country=="other"),] #drop since country unclear (third exclusion criterion)
 
-stress5 <- na.omit(stress5) #third exclusion criterion
+#descriptives
+
+mean(stress5$Dem_age)
+sd(stress5$Dem_age)
+table(stress5$Dem_gender)
+table(stress5$Country)
+
+stress5$Country <- NULL
+stress5$ns <- NULL
+
 
 #define safe choice
 
@@ -117,6 +126,9 @@ g <- qgraph(Res, nodeNames = Labels, legend.cex = 0.4,
 
 #g <- qgraph(Res, nodeNames = Labels, legend.cex = 0.4,
 #       asize = 5, edge.color = "black", filetype = "jpg") 
+
+Res <- set.arc(Res, from = "N", to = "E")
+Res <- set.arc(Res, from = "E", to = "C")
 
 #g <- qgraph(Res, nodeNames=Labels, legend.cex = 0.5,
 #asize = 0.5, edge.color = "black")
